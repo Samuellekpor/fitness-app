@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SectionWrapper from './SectionWrapper'
-import { WORKOUTS } from '../utils/swoldier'
+import { SCHEMES, WORKOUTS } from '../utils/swoldier'
 
 function Header(props) {
   const { index, title, description } = props
@@ -16,6 +16,15 @@ function Header(props) {
 }
 
 export default function Generator() {
+  const [showModal, setShowModal] = useState(false)
+  const [poison, setPoison] = useState('individual')
+  const [muscles, setMuscles] = useState([])
+  const [goals, setGoals] = useState('strength_power')
+
+  function toggleModal() {
+    setShowModal(!showModal)
+  }
+
   return (
     <SectionWrapper header={"Generate your workout"} title= {['It\'s', 'huge', 'o\'clock']}>
       <Header index={'01'} title={'Pick your poison'} description={'Select the workout you wish to endure.'} />
@@ -24,6 +33,32 @@ export default function Generator() {
           return(
             <button className='bg-slate-950 border border-blue-400 py-3 rounded-lg duration-200 hover:border-blue-600' key={typeIndex}>
               <p className='capitalize'>{type.replaceAll('_', ' ')}</p>
+            </button>
+          )
+        })}
+      </div>
+
+      <Header index={'02'} title={'Lock on target'} description={'Select the muscles judged for annihilation'} />
+      <div className='bgslate-950 border border-solid border-blue-400 rounded-lg flex flex-col'>
+        <button onClick={toggleModal} className='relative flex py-3 items-center justify-center '>
+          <p>Select muscle groups</p>
+          <i className='fa-solid fa-caret-down absolute right-3 top-1/2 -translate-y-1/2'></i>
+        </button>
+        {
+          showModal && (
+            <div>
+              <p>Modal</p>
+            </div>
+          )
+        }
+      </div>
+
+      <Header index={'03'} title={'Become Juggernaut'} description={'Select your ultimate objective.'} />
+      <div className='grid grid-cols-3 gap-4'>
+        {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
+          return(
+            <button className='bg-slate-950 border border-blue-400 py-3 rounded-lg duration-200 hover:border-blue-600' key={schemeIndex}>
+              <p className='capitalize'>{scheme.replaceAll('_', ' ')}</p>
             </button>
           )
         })}
