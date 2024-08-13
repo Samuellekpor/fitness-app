@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SectionWrapper from "./SectionWrapper";
 import { SCHEMES, WORKOUTS } from "../utils/swoldier";
+import Button from "./Button";
 
 function Header(props) {
   const { index, title, description } = props;
@@ -33,7 +34,7 @@ export default function Generator() {
       return;
     }
 
-    if (muscles.length > 3) {
+    if (muscles.length > 2) {
       return;
     }
 
@@ -44,7 +45,8 @@ export default function Generator() {
     }
 
     setMuscles([...muscles, muscleGroup]);
-    if (muscles.length === 3) {
+
+    if (muscles.length === 2) {
       setShowModal(false);
     }
   }
@@ -63,8 +65,8 @@ export default function Generator() {
         {Object.keys(WORKOUTS).map((type, typeIndex) => {
           return (
             <button
-              onClick={() => setPoison(type)}
-              className={'bg-slate-950 border py-3 hover:border-blue-600 rounded-lg duration-200' + (type === poison ? ' border-blue-600' : 'border-blue-400')}
+              onClick={() => {setPoison(type); setMuscles([]);}}
+              className={'bg-slate-950 border px-4 py-3 hover:border-blue-600 rounded-lg duration-200' + (type === poison ? ' border-blue-600' : 'border-blue-400')}
               key={typeIndex}
             >
               <p className="capitalize">{type.replaceAll("_", " ")}</p>
@@ -81,9 +83,9 @@ export default function Generator() {
       <div className="bg-slate-950 border border-solid border-blue-400 rounded-lg flex flex-col">
         <button
           onClick={toggleModal}
-          className="relative flex py-3 items-center justify-center "
+          className="relative flex px-4 py-3 items-center justify-center "
         >
-          <p>Select muscle groups</p>
+          <p className="capitalize">{muscles.length === 0 ? 'Select muscle groups' : muscles.join(" ")}</p>
           <i className="fa-solid fa-caret-down absolute right-3 top-1/2 -translate-y-1/2"></i>
         </button>
         {showModal && (
@@ -108,7 +110,7 @@ export default function Generator() {
         {Object.keys(SCHEMES).map((scheme, schemeIndex) => {
           return (
             <button onClick={() => setGoal(scheme)}
-              className={"bg-slate-950 border hover:border-blue-600 py-3 rounded-lg duration-200" + (scheme === goal ? ' border-blue-600' : 'border-blue-400')}
+              className={"bg-slate-950 px-4 border hover:border-blue-600 py-3 rounded-lg duration-200" + (scheme === goal ? ' border-blue-600' : 'border-blue-400')}
               key={schemeIndex}
             >
               <p className="capitalize">{scheme.replaceAll("_", " ")}</p>
@@ -116,6 +118,7 @@ export default function Generator() {
           );
         })}
       </div>
+      <Button text="Formulate" />
     </SectionWrapper>
   );
 }
