@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Hero from './components/Hero'
 import Workout from './components/Workout'
 import Generator from './components/Generator'
+import { generateWorkout } from './utils/functions'
 
 function App() {
   const [workout, setWorkout] = useState(null)
@@ -14,6 +15,7 @@ function App() {
       return
     }
     let newWorkout = generateWorkout({poison, muscles, goal});
+    console.log(newWorkout);
     setWorkout(newWorkout);
   }
 
